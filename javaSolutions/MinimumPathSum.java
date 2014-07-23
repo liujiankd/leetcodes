@@ -31,6 +31,31 @@ public class MinimumPathSum {
         
         return array[rows - 1][cols - 1];
     }
+
+    // To minimize the Space cost, next solution uses O(N) space
+    public int minPathSum1(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        if(rows == 0 || cols == 0) {
+            return 0;
+        }
+        
+        int[] n = new int[cols];
+        n[0] = grid[0][0];
+        int c;
+        for(c = 1; c < cols; c++) {
+            n[c] = n[c - 1] + grid[0][c];
+        }
+        
+        for(int r = 1; r < rows; r++) {
+            n[0] += grid[r][0];
+            for(c = 1; c < cols; c++) {
+                n[c] = Math.min(n[c - 1], n[c]) + grid[r][c];
+            }
+        }
+        
+        return n[cols - 1];
+    }
 }
 /*
 The solution above (DP) uses O(M * N) space.
