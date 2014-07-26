@@ -14,24 +14,16 @@ public class SearchInRotatedSortedArray {
                 break;
             }
             if(A[mid] <= A[high]) {
-                if(target < A[mid]) {
+                if(target < A[mid] || target > A[high]) {
                     high = mid - 1;
                 } else {
-                    if(target <= A[high]) {
                         low = mid + 1;
-                    } else {
-                        high = mid - 1;
-                    }
                 }
             } else {
-                if(target > A[mid]) {
+                if(target > A[mid] || target < A[low]) {
                     low = mid + 1;
                 } else {
-                    if(target >= A[low]) {
                         high = mid - 1;
-                    } else {
-                        low = mid + 1;
-                    }
                 }
             }
         }
