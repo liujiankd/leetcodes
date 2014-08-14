@@ -16,33 +16,32 @@ If S = [1,2,2], a solution is:
   []
 ]
 */
+import java.util.*;
 
 public class Subsets2 {
     private List<List<Integer>> res;
     private List<Integer> tmp;
+    private int[] array;
+    private int length;
     
     public List<List<Integer>> subsetsWithDup(int[] num) {
         res = new LinkedList<List<Integer>>();
         tmp = new LinkedList<Integer>();
-        res.add(tmp);
-        if(num.length == 0) {
-            return res;
-        }
-        
-        Arrays.sort(num);
-        subSets(num, 0);
+        array = num;
+        length = array.length;
+        Arrays.sort(array);
+        subSets(0);
         return res;
     }
     
-    private void subSets(int[] num, int index) {
-        for(int i = index; i < num.length; i++) {
-            if(i != index && num[i] == num[i - 1]) {
+    private void subSets(int index) {
+        res.add(new LinkedList<Integer>(tmp));
+        for(int i = index; i < length; i++) {
+            if(i != index && array[i] == array[i - 1]) {
                 continue;
             }
-            tmp.add(num[i]);
-            List<Integer> a = new LinkedList<Integer>(tmp);
-            res.add(a);
-            subSets(num, i + 1);
+            tmp.add(array[i]);
+            subSets(i + 1);
             tmp.remove(tmp.size() - 1);
         }
     }
