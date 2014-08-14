@@ -18,44 +18,30 @@ If S = [1,2,3], a solution is:
   []
 ]
 */
-import java.util.Arrays;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 public class Subsets {
+    private List<List<Integer>> res;
+    private int[] a;
+    private int length;
+    private List<Integer> tmp;
+    
     public List<List<Integer>> subsets(int[] S) {
-        List<List<Integer>> res = new LinkedList<List<Integer>>();
-        res.add(new LinkedList<Integer>());
-        final int length = S.length;
-        if(length == 0) {
-            return res;
-        }
-        
-        Arrays.sort(S);
-        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-        for(int i = 0; i < length; i++) {
-            map.put(S[i], i);
-        }
-        
-        int len1 = 0;
-        int len2 = 1;
-        List<Integer> list = null;
-        for(int size = 0; size < length; size++) {
-            for(int i = len1; i < len2; i++) {
-                list = res.get(i);
-                int start = size == 0 ? -1 : map.get(list.get(size - 1));
-                for(start++; start < length; start++) {
-                    List<Integer> aset = new LinkedList<Integer>(list);
-                    aset.add(S[start]);
-                    res.add(aset);
-                }
-            }
-            len1 = len2;
-            len2 = res.size();
-        }
-        
+        a = S;
+        length = a.length;
+        Arrays.sort(a);
+        res = new LinkedList<List<Integer>>();
+        tmp = new LinkedList<Integer>();
+        makeSubSets(0);
         return res;
+    }
+    
+    private void makeSubSets(int cur) {
+        res.add(new LinkedList<Integer>(tmp));
+        for(int i = cur; i < length; i++) {
+            tmp.add(a[i]);
+            makeSubSets(i + 1);
+            tmp.remove(tmp.size() - 1);
+        }
     }
 }
